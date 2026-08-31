@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(llama-audio-jni
     VERSION     0.1.0
-    DESCRIPTION "Audio oriented Java wrapper for llama.cpp"
+    DESCRIPTION "Java wrapper for llama.cpp audio processing"
     LANGUAGES   C CXX)
 
 # True when this repository is the top of the build, rather than part of a larger one.
@@ -14,11 +14,11 @@ endif()
 
 option(LLAMA_AUDIO_BUILD_TESTS "llama-audio: build the native test programs" ${LLAMA_AUDIO_STANDALONE})
 
-# The llama.cpp release this project is built and tested against. Read the README before
-# changing it: llama.cpp's own helper code changes without notice, and moving far from a tested
-# release is what makes wrappers like this one stop compiling.
+
+# The llama.cpp version this project is built against. Read the README before changing it.
 set(LLAMA_AUDIO_LLAMA_CPP_TAG "b10670" CACHE STRING
     "llama-audio: llama.cpp git tag to build against")
+
 
 # Path to a llama.cpp checkout that is already on disk. When set, nothing is downloaded, which
 # is what to use on a machine without access to github.com.
@@ -80,3 +80,4 @@ if (LLAMA_AUDIO_BUILD_TESTS)
 endif()
 
 message(STATUS "llama-audio: configured ${PROJECT_NAME} ${PROJECT_VERSION} (${CMAKE_BUILD_TYPE})")
+

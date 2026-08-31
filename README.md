@@ -1,4 +1,4 @@
-# Llama Audio from Java
+# Java Binindgs for Llama Audio Processing
 
 Runs a local language model from Java, with audio as an input, using llama.cpp through JNI. No
 server, no HTTP calls: the model runs inside the JVM process.
@@ -6,31 +6,19 @@ server, no HTTP calls: the model runs inside the JVM process.
 Built for models that read audio directly, such as Gemma 4, so speech can be sent to the model
 as samples instead of being turned into text first by a separate speech recognizer.
 
-## The two parts
+## Project Structure
 
 | Part | Directory | What it is |
 | --- | --- | --- |
 | Native | `native/` | A C interface over llama.cpp. No JNI, no Java. Has its own test program. |
 | Java | `java/` | A thin JNI layer plus the Java classes. Converts types and calls the C interface. |
 
-The split is deliberate. The native part builds and runs on its own, so most debugging happens
-in a plain program under `gdb`, away from the JVM and its use of signals. The JNI layer stays
-small enough to be boring: convert the arguments, call a function, convert the result.
 
-## What it is built on
-
-Two parts of llama.cpp, and nothing else:
+## Dependencies 
 
 - **`llama.h`** — llama.cpp's published C interface. Models, tokens, sampling, key-value cache.
 - **`mtmd.h`** — llama.cpp's multimodal library, which turns audio into something the model reads.
 
-It does **not** use llama.cpp's `common` directory. That code exists for llama.cpp's own command
-line programs and changes without notice; building on it is what makes wrappers stop compiling a
-few months later. llama.cpp enforces the same separation itself — its build fails on purpose if
-the multimodal library is ever linked against `common`.
-
-`mtmd.h` states in its own header that it is experimental and that breaking changes are expected.
-There is no stable alternative for audio. The surface used here is about ten functions.
 
 ## Requirements
 
