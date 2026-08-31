@@ -1,3 +1,16 @@
+# CMake
+build/
+cmake-build-*/
+
+# Maven
+target/
+
+# Built native libraries
+*.so
+*.dylib
+*.dll
+*.a
+
 # Compiled class file
 *.class
 
