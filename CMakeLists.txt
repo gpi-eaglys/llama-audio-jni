@@ -13,6 +13,7 @@ else()
 endif()
 
 option(LLAMA_AUDIO_BUILD_TESTS "llama-audio: build the native test programs" ${LLAMA_AUDIO_STANDALONE})
+option(LLAMA_AUDIO_BUILD_JNI   "llama-audio: build the shared library the JVM loads" ON)
 
 
 # The llama.cpp version this project is built against. Read the README before changing it.
@@ -73,6 +74,10 @@ set(LLAMA_AUDIO_MTMD_INCLUDE_DIR ${LLAMA_AUDIO_LLAMA_CPP_DIR}/tools/mtmd)
 #################### this project ####################
 
 add_subdirectory(native)
+
+if (LLAMA_AUDIO_BUILD_JNI)
+    add_subdirectory(java)
+endif()
 
 if (LLAMA_AUDIO_BUILD_TESTS)
     enable_testing()

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.eaglys.llamaaudio</groupId>
+  <artifactId>llama-audio-jni</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>llama-audio-jni</name>
+  <description>Java bindings for running a local model with audio input, through llama.cpp.</description>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>https://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
+  <properties>
+    <maven.compiler.release>25</maven.compiler.release>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <junit.version>5.11.3</junit.version>
+
+    <!--
+      The tests need a real model, so they are skipped unless these are given:
+        mvn test -Dllama.audio.test.model=model.gguf \
+                 -Dllama.audio.test.mmproj=mmproj.gguf \
+                 -Dllama.audio.test.audio=sample.wav
+    -->
+    <llama.audio.test.model/>
+    <llama.audio.test.mmproj/>
+    <llama.audio.test.audio/>
+
+    <!-- Where the CMake build leaves the shared library. -->
+    <llama.audio.library.path/>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.13.0</version>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.5.2</version>
+        <configuration>
+          <!--
+            Loading a shared library is a restricted operation from JDK 24 on, and a future
+            release blocks it outright unless the caller is named here.
+          -->
+          <argLine>--enable-native-access=ALL-UNNAMED</argLine>
+          <systemPropertyVariables>
+            <llama.audio.test.model>${llama.audio.test.model}</llama.audio.test.model>
+            <llama.audio.test.mmproj>${llama.audio.test.mmproj}</llama.audio.test.mmproj>
+            <llama.audio.test.audio>${llama.audio.test.audio}</llama.audio.test.audio>
+            <llama.audio.library.path>${llama.audio.library.path}</llama.audio.library.path>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

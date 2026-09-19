@@ -2,14 +2,19 @@
 build/
 cmake-build-*/
 
+# IDE
+.idea/
+
 # Maven
 target/
 
-# Built native libraries
+# Built native libraries. The JNI one is written into the Maven resources tree, where
+# `mvn package` picks it up as an ordinary resource.
 *.so
 *.dylib
 *.dll
 *.a
+java/src/main/resources/com/eaglys/llamaaudio/
 
 # Compiled class file
 *.class
