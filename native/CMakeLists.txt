@@ -1,12 +1,11 @@
 #
-# llama-audio: the C interface that language bindings are written against.
+# llama-audio: the C interface
 #
-# Depends on llama.cpp's published interface only: llama (llama.h) for the model and mtmd
-# (mtmd.h) for reading audio. It does not link llama-common.
+# Depends on llama.cpp's published interface only:
+# - llama (llama.h) for the model and
+# - mtmd (mtmd.h) for reading audio
 #
-# Built as a static library because it is meant to end up inside another shared library, such
-# as the JNI one, with nothing to ship alongside it.
-#
+# Built as a static library.
 
 add_library(llama-audio STATIC
     src/llama_audio.cpp
